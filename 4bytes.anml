@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<macro-definition id="4bytes" name="4bytes">
+	<description></description>
+		<header>
+			<interface-declarations>
+			<port type="report" id="r15" />
+			</interface-declarations>
+		<parameter-declarations>
+			<parameter parameter-name="%p10" default-value="[\x09]">
+			</parameter>
+			<parameter parameter-name="%p11" default-value="[\x0a]">
+			</parameter>
+			<parameter parameter-name="%p14" default-value="[\x0c]">
+			</parameter>
+			<parameter parameter-name="%p15" default-value="[\x0d]">
+			</parameter>
+			<parameter parameter-name="%p12" default-value="[\x0b]">
+			</parameter>
+			<parameter parameter-name="%p1" default-value="[\x01]">
+			</parameter>
+			<parameter parameter-name="%p2" default-value="[\x02]">
+			</parameter>
+			<parameter parameter-name="%p5" default-value="[\x04]">
+			</parameter>
+			<parameter parameter-name="%p6" default-value="[\x05]">
+			</parameter>
+			<parameter parameter-name="%p4" default-value="[\x03]">
+			</parameter>
+			<parameter parameter-name="%p9" default-value="[\x08]">
+			</parameter>
+			<parameter parameter-name="%p7" default-value="[\x06]">
+			</parameter>
+			<parameter parameter-name="%p8" default-value="[\x07]">
+			</parameter>
+		</parameter-declarations>
+		</header>
+		<body>
+			<port-definitions>
+			<report-alias id="r15" element="__15__"/>
+			</port-definitions>
+	<state-transition-element id="s12" symbol-set="%p12">
+		<activate-on-match element="s15"/>
+	</state-transition-element>
+	<state-transition-element id="s10" symbol-set="%p10">
+		<activate-on-match element="__15__"/>
+	</state-transition-element>
+	<state-transition-element id="_16" symbol-set="*">
+		<activate-on-match element="_17"/>
+	</state-transition-element>
+	<state-transition-element id="__15__" symbol-set="*">
+		<report-on-match/>
+	</state-transition-element>
+	<state-transition-element id="s15" symbol-set="%p15">
+		<activate-on-match element="__15__"/>
+	</state-transition-element>
+	<state-transition-element id="s2" symbol-set="%p2" start="start-of-data">
+		<activate-on-match element="__15__"/>
+	</state-transition-element>
+	<state-transition-element id="s14" symbol-set="%p14">
+		<activate-on-match element="__15__"/>
+	</state-transition-element>
+	<state-transition-element id="s9" symbol-set="%p9">
+		<activate-on-match element="s14"/>
+	</state-transition-element>
+	<state-transition-element id="s5" symbol-set="%p5">
+		<activate-on-match element="s9"/>
+		<activate-on-match element="s10"/>
+	</state-transition-element>
+	<state-transition-element id="_17" symbol-set="*">
+		<activate-on-match element="_18"/>
+	</state-transition-element>
+	<state-transition-element id="_18" symbol-set="*">
+		<activate-on-match element="s2"/>
+		<activate-on-match element="s4"/>
+		<activate-on-match element="s1"/>
+		<activate-on-match element="_19"/>
+	</state-transition-element>
+	<state-transition-element id="_19" symbol-set="*" start="start-of-data">
+		<activate-on-match element="_16"/>
+	</state-transition-element>
+	<state-transition-element id="s8" symbol-set="%p8">
+		<activate-on-match element="s11"/>
+		<activate-on-match element="s12"/>
+	</state-transition-element>
+	<state-transition-element id="s7" symbol-set="%p7">
+		<activate-on-match element="__15__"/>
+	</state-transition-element>
+	<state-transition-element id="s4" symbol-set="%p4" start="start-of-data">
+		<activate-on-match element="s7"/>
+		<activate-on-match element="s8"/>
+	</state-transition-element>
+	<state-transition-element id="s1" symbol-set="%p1" start="start-of-data">
+		<activate-on-match element="s5"/>
+		<activate-on-match element="s6"/>
+	</state-transition-element>
+	<state-transition-element id="s11" symbol-set="%p11">
+		<activate-on-match element="__15__"/>
+	</state-transition-element>
+	<state-transition-element id="s6" symbol-set="%p6">
+		<activate-on-match element="__15__"/>
+	</state-transition-element>
+		</body>
+</macro-definition>
