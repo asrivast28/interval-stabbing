@@ -108,7 +108,7 @@ def parseArgs():
 
 def createAnmlNetwork(args, name):
     anml = ap.Anml()
-    comparator = anml.LoadAnmlMacro(args.macro, options = ap.CompileDefs.AP_OPT_FAST_COMPILE | ap.CompileDefs.AP_OPT_MT)
+    comparator = anml.LoadAnmlMacro(args.macro)
     comparator.SetMacroDefToBeCompiled()
     anml.CompileMacros()
 
@@ -149,7 +149,7 @@ def createAnmlNetwork(args, name):
             y = randint(x, upper)
             allRanges.append((x, y))
 
-    for m in xrange(min(args.maximum,args.count)):
+    for m in xrange(min(args.maximum, len(allRanges))):
         network.AddMacroRef(comparator, anmlId = 'macro_%d'%m)
 
     n = -1
@@ -173,7 +173,7 @@ def createAnmlNetwork(args, name):
     return anml, substitutionLists
 
 def compileAnmlNetwork(name, anml, allSubstitutions):
-    automaton, emap = anml.CompileAnml(options = ap.CompileDefs.AP_OPT_FAST_COMPILE | ap.CompileDefs.AP_OPT_MT)
+    automaton, emap = anml.CompileAnml()
     info = automaton.GetInfo()
     print 'ste_grp_used =', info.ste_grp_used
     print 'ste_count =', info.ste_count
