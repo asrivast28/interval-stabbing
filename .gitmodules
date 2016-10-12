@@ -1,0 +1,3 @@
+[submodule "comparators"]
+	path = comparators
+	url = git@bitbucket.org:automataprocessor/comparator-macros.git
