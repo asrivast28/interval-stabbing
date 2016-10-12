@@ -1,3 +1,6 @@
 [submodule "comparators"]
 	path = comparators
 	url = git@github.com:asrivast28/comparator-macros.git
+[submodule "apsdk"]
+	path = apsdk
+	url = git@github.com:asrivast28/apsdk-cpp.git
