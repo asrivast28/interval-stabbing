@@ -44,7 +44,7 @@ releaseBuild = ARGUMENTS.get('DEBUG', 0) in [0, '0']
 # Location of boost static libraries.
 boostLibPath = ARGUMENTS.get('BOOSTLIBPATH', '/usr/lib/x86_64-linux-gnu')
 # SDK version
-sdkVersion = int(ARGUMENTS.get('APSDKVERSION', 17))
+sdkVersion = int(ARGUMENTS.get('APSDKVERSION', 34))
 
 if platform.system() in ['Darwin', 'Linux']:
   cpp = 'g++'

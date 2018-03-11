@@ -292,12 +292,12 @@ Intervals<LimitType>::stab(
     // Ensure that flow chunks end at number boundaries.
     size_t flowChunkSize = (maxChunkSize / B) * B;
     // Search for all the points and get the results.
-    std::vector<std::pair<ap::ElementRef, size_t> > allStabs = device.search(allPoints, flowChunkSize);
+    std::vector<std::pair<size_t, ap::ElementRef> > allStabs = device.search(allPoints, flowChunkSize);
 
     const ElementRefIntervalMap& macroIntervalMap = automaton.second;
-    for (const std::pair<ap::ElementRef, size_t>& stab : allStabs) {
-      ap::ElementRef macroRef = stab.first;
-      size_t pointIndex = stab.second / B;
+    for (const std::pair<size_t, ap::ElementRef>& stab : allStabs) {
+      size_t pointIndex = stab.first / B;
+      ap::ElementRef macroRef = stab.second;
       size_t intervalIndex = macroIntervalMap.at(macroRef);
       std::unordered_map<size_t, std::vector<size_t> >::iterator it = stabbedIntervals.find(points.get(pointIndex));
       if (it != stabbedIntervals.end()) {
