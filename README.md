@@ -12,6 +12,7 @@ to determine the intervals stabbed by every point.
   * [apsdk](https://github.com/asrivast28/apsdk-cpp)
 * **gcc** (with C++11 support)  
 This project has been test built only on Linux platform, using gcc with C++11 support.
+* **AP SDK** (tested with *v1.7.26* and *v1.7.34*)
 * **Boost**  
 Boost libraries are used for parsing the command line options and a few other purposes.  
 More information about Boost libraries can be found at [http://boost.org/](http://boost.org/).
