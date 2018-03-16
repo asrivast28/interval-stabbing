@@ -44,8 +44,9 @@ releaseBuild = ARGUMENTS.get('DEBUG', 0) in [0, '0']
 # Location of boost static libraries.
 boostLibPath = ARGUMENTS.get('BOOSTLIBPATH', '/usr/lib/x86_64-linux-gnu')
 # SDK version
-sdkVersion = int(ARGUMENTS.get('APSDKVERSION', 34))
-
+import subprocess
+import re
+sdkVersion = int(re.search('version 1.7.(\d+)', subprocess.check_output(['apadmin', '--version'])).group(1))
 if platform.system() in ['Darwin', 'Linux']:
   cpp = 'g++'
   cppFlags.extend([
@@ -74,7 +75,7 @@ else:
     buildDir = 'debug'
     targetName += '_debug'
 
-env = Environment(CXX = cpp, CXXFLAGS = cppFlags, CPPPATH = cppPaths, CPPDEFINES = cppDefs, LIBPATH = libPaths)
+env = Environment(ENV = os.environ, CXX = cpp, CXXFLAGS = cppFlags, CPPPATH = cppPaths, CPPDEFINES = cppDefs, LIBPATH = libPaths)
 
 env.targetName = targetName
 env.topDir = topDir
