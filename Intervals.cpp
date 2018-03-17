@@ -292,6 +292,7 @@ Intervals<LimitType>::stab(
   unsigned char* stream = &allPoints[0];
   for (size_t p = 0; p < points.count(); ++p) {
     reverse_memcpy(stream, &points.get(p), B);
+    stream += B;
   }
 
   if (!deviceName.empty()) {
