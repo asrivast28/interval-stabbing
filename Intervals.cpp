@@ -311,7 +311,7 @@ Intervals<LimitType>::stab(
       size_t pointIndex = (stab.first - 1) / B;
       ap::ElementRef macroRef = stab.second;
       size_t intervalIndex = macroIntervalMap.at(macroRef);
-      std::unordered_map<size_t, std::vector<size_t> >::iterator it = stabbedIntervals.find(points.get(pointIndex));
+      std::unordered_map<size_t, std::vector<size_t> >::iterator it = stabbedIntervals.find(pointIndex);
       if (it != stabbedIntervals.end()) {
         (it->second).push_back(intervalIndex);
       }
