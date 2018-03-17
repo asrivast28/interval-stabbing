@@ -28,6 +28,8 @@
 ProgramOptions::ProgramOptions(
 ) : m_options("Determines which of the given intervals were stabbed by the given points"),
     m_deviceName(),
+    m_macrosDir(),
+    m_fsmName(),
     m_intervalsFile(),
     m_pointsFile(),
     m_numBytes(),
@@ -40,6 +42,8 @@ ProgramOptions::ProgramOptions(
   m_options.add_options()
     ("help,h", "Print this message.")
     ("device,d", po::value<std::string>(&m_deviceName), "Name of the AP device to be used for stabbing intervals.")
+    ("macros,m", po::value<std::string>(&m_macrosDir)->default_value("./comparators"), "Directory which contains all the comparator macros.")
+    ("fsm,f", po::value<std::string>(&m_fsmName), "Name of the FSM file to be written.")
     ("intervals,i", po::value<std::string>(&m_intervalsFile), "Name of the file from which intervals are to be read.")
     ("points,p", po::value<std::string>(&m_pointsFile), "Name of the file from which points are to be read.")
     ("bytes,b", po::value<size_t>(&m_numBytes)->default_value(4), "Number of bytes.")
@@ -86,6 +90,20 @@ ProgramOptions::deviceName(
 ) const
 {
   return m_deviceName;
+}
+
+std::string
+ProgramOptions::macrosDir(
+) const
+{
+  return m_macrosDir;
+}
+
+std::string
+ProgramOptions::fsmName(
+) const
+{
+  return m_fsmName;
 }
 
 std::string

@@ -62,7 +62,7 @@ stabIntervals(
   else {
     throw std::runtime_error("No points provided.");
   }
-  std::unordered_map<size_t, std::vector<size_t> > stabs = intervals.stab(points, options.deviceName(), options.maxChunkSize());
+  std::unordered_map<size_t, std::vector<size_t> > stabs = intervals.stab(points, options.deviceName(), options.macrosDir(), options.fsmName(), options.maxChunkSize());
 
   // Print the stabbed intervals.
   if (stabs.empty()) {

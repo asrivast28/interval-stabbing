@@ -40,7 +40,10 @@ public:
   deviceName() const;
 
   std::string
-  macroFile() const;
+  macrosDir() const;
+
+  std::string
+  fsmName() const;
 
   std::string
   intervalsFile() const;
@@ -74,6 +77,8 @@ public:
 private:
   po::options_description m_options;
   std::string m_deviceName;
+  std::string m_macrosDir;
+  std::string m_fsmName;
   std::string m_intervalsFile;
   std::string m_pointsFile;
   size_t m_numBytes;

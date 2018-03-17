@@ -47,7 +47,7 @@ public:
   get(const size_t) const;
 
   std::unordered_map<size_t, std::vector<size_t> >
-  stab(const Points<LimitType>&, const std::string&, const size_t) const;
+  stab(const Points<LimitType>&, const std::string&, const std::string&, const std::string&, const size_t) const;
 
   ~Intervals();
 
@@ -59,7 +59,7 @@ private:
 
 private:
   std::pair<ap::Automaton, ElementRefIntervalMap>
-  program() const;
+  program(const std::string&, const std::string&) const;
 
 private:
   std::vector<std::pair<LimitType, LimitType> > m_intervals;

@@ -196,15 +196,20 @@ Intervals<LimitType>::get(
 template <typename LimitType>
 std::pair<ap::Automaton, typename Intervals<LimitType>::ElementRefIntervalMap>
 Intervals<LimitType>::program(
+  const std::string& macrosDir,
+  const std::string& fsmName
 ) const
 {
-  std::string networkName(std::to_string(B) + "bytes_network");
-  // Create ANML workspace.
+  std::string networkName(fsmName);
+  if (networkName.empty()) {
+    networkName = std::to_string(B) + "bytes_network";
+  }
+  // Create ANML workspace and network.
   ap::Anml anml;
   ap::AnmlNetwork network(anml.createNetwork(networkName));
 
   // Load comparator macro.
-  std::string c = "comparators/" + std::to_string(B) + "bytes_compiled.anml";
+  std::string c = macrosDir + "/" + std::to_string(B) + "bytes_compiled.anml";
   ap::AnmlMacro comparator(anml.loadMacro(c));
 
   // Get and store reference for all the macro parameters.
@@ -220,16 +225,21 @@ Intervals<LimitType>::program(
     network.addMacroRef(comparator, "comparator_" + std::to_string(i));
   }
 
-  network.exportAnml(networkName + ".anml");
+  if (!fsmName.empty()) {
+    // Export the ANML before compiling.
+    network.exportAnml(fsmName + ".anml");
+  }
 
   // Compile the complete automaton for all the intervals.
   std::pair<ap::Automaton, ap::ElementMap> result = anml.compileAnml();
   ap::Automaton automaton(std::move(result.first));
   ap::ElementMap elementMap(std::move(result.second));
-  // Print information about the compiled automaton.
-  std::cout << "Following are the stats of the compiled automaton:" << std::endl;
-  automaton.printInfo();
-  std::cout << std::endl;
+
+  if (!fsmName.empty()) {
+    automaton.printInfo();
+    automaton.save(fsmName + ".fsm");
+    elementMap.save(fsmName + ".emap");
+  }
 
   // Container for storing element ref to interval index mapping.
   ElementRefIntervalMap macroIntervalMap; 
@@ -268,11 +278,13 @@ std::unordered_map<size_t, std::vector<size_t> >
 Intervals<LimitType>::stab(
   const Points<LimitType>& points,
   const std::string& deviceName,
+  const std::string& macrosDir,
+  const std::string& fsmName,
   const size_t maxChunkSize
 ) const
 {
   // Get the automaton for the intervals.
-  std::pair<ap::Automaton, ElementRefIntervalMap> automaton(program());
+  std::pair<ap::Automaton, ElementRefIntervalMap> automaton(program(macrosDir, fsmName));
 
   std::unordered_map<size_t, std::vector<size_t> > stabbedIntervals;
 
