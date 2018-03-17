@@ -235,12 +235,6 @@ Intervals<LimitType>::program(
   ap::Automaton automaton(std::move(result.first));
   ap::ElementMap elementMap(std::move(result.second));
 
-  if (!fsmName.empty()) {
-    automaton.printInfo();
-    automaton.save(fsmName + ".fsm");
-    elementMap.save(fsmName + ".emap");
-  }
-
   // Container for storing element ref to interval index mapping.
   ElementRefIntervalMap macroIntervalMap; 
   // Total number of substitutions needed.
@@ -259,7 +253,12 @@ Intervals<LimitType>::program(
     macroIntervalMap.insert(std::make_pair(elementRef, i));
   }
   automaton.setSymbol(elementMap, changes);
-  automaton.save(networkName + ".fsm");
+  if (!fsmName.empty()) {
+    automaton.printInfo();
+    automaton.save(fsmName + ".fsm");
+    elementMap.save(fsmName + ".emap");
+  }
+
   return std::pair<ap::Automaton, ElementRefIntervalMap>(std::move(automaton), macroIntervalMap);
 }
 
