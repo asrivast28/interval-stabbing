@@ -107,21 +107,23 @@ assignLabels(
   if (((x[0] <= 127) && (y[0] <= 127)) || ((x[0] > 127) && (y[0] > 127))) {
     assignLabels<typename std::make_unsigned<LimitType>::type>(x, y, elementRef, paramRefMap, changes);
   }
-  std::vector<std::pair<std::pair<unsigned char, bool>, std::pair<unsigned char, bool> > > intervals;
-  intervals.push_back(std::make_pair(std::make_pair(x[0], false), std::make_pair(255, true)));
-  intervals.push_back(std::make_pair(std::make_pair(0, true), std::make_pair(y[0], false)));
-  changes.add(elementRef, paramRefMap.at(2), getIntervalSymbols(intervals));
+  else {
+    std::vector<std::pair<std::pair<unsigned char, bool>, std::pair<unsigned char, bool> > > intervals;
+    intervals.push_back(std::make_pair(std::make_pair(x[0], false), std::make_pair(255, true)));
+    intervals.push_back(std::make_pair(std::make_pair(0, true), std::make_pair(y[0], false)));
+    changes.add(elementRef, paramRefMap.at(2), getIntervalSymbols(intervals));
 
-  for (unsigned i = 1; i < (B-1); ++i) {
-    changes.add(elementRef, paramRefMap.at(4*(i-1)+1), ap::SymbolChange::getSymbolSet(ap::SymbolChange::getHexSymbol(x[i-1])));
-    changes.add(elementRef, paramRefMap.at(4*(i-1)+4), ap::SymbolChange::getSymbolSet(ap::SymbolChange::getHexSymbol(y[i-1])));
-    changes.add(elementRef, paramRefMap.at(4*i+2), getIntervalSymbols(std::make_pair(x[i], false), std::make_pair(255, true)));
-    changes.add(elementRef, paramRefMap.at(4*i+3), getIntervalSymbols(std::make_pair(0, true), std::make_pair(y[i], false)));
+    for (unsigned i = 1; i < (B-1); ++i) {
+      changes.add(elementRef, paramRefMap.at(4*(i-1)+1), ap::SymbolChange::getSymbolSet(ap::SymbolChange::getHexSymbol(x[i-1])));
+      changes.add(elementRef, paramRefMap.at(4*(i-1)+4), ap::SymbolChange::getSymbolSet(ap::SymbolChange::getHexSymbol(y[i-1])));
+      changes.add(elementRef, paramRefMap.at(4*i+2), getIntervalSymbols(std::make_pair(x[i], false), std::make_pair(255, true)));
+      changes.add(elementRef, paramRefMap.at(4*i+3), getIntervalSymbols(std::make_pair(0, true), std::make_pair(y[i], false)));
+    }
+    changes.add(elementRef, paramRefMap.at(4*(B-2)+1), ap::SymbolChange::getSymbolSet(ap::SymbolChange::getHexSymbol(x[B-2])));
+    changes.add(elementRef, paramRefMap.at(4*(B-2)+4), ap::SymbolChange::getSymbolSet(ap::SymbolChange::getHexSymbol(y[B-2])));
+    changes.add(elementRef, paramRefMap.at(4*(B-1)+2), getIntervalSymbols(std::make_pair(x[B-1], true), std::make_pair(255, true)));
+    changes.add(elementRef, paramRefMap.at(4*(B-1)+3), getIntervalSymbols(std::make_pair(0, true), std::make_pair(y[B-1], true)));
   }
-  changes.add(elementRef, paramRefMap.at(4*(B-2)+1), ap::SymbolChange::getSymbolSet(ap::SymbolChange::getHexSymbol(x[B-2])));
-  changes.add(elementRef, paramRefMap.at(4*(B-2)+4), ap::SymbolChange::getSymbolSet(ap::SymbolChange::getHexSymbol(y[B-2])));
-  changes.add(elementRef, paramRefMap.at(4*(B-1)+2), getIntervalSymbols(std::make_pair(x[B-1], true), std::make_pair(255, true)));
-  changes.add(elementRef, paramRefMap.at(4*(B-1)+3), getIntervalSymbols(std::make_pair(0, true), std::make_pair(y[B-1], true)));
 }
 
 #endif // LABELINGALGORITHMS_HPP_
