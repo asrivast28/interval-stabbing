@@ -308,7 +308,7 @@ Intervals<LimitType>::stab(
 
     const ElementRefIntervalMap& macroIntervalMap = automaton.second;
     for (const std::pair<size_t, ap::ElementRef>& stab : allStabs) {
-      size_t pointIndex = stab.first / B;
+      size_t pointIndex = (stab.first - 1) / B;
       ap::ElementRef macroRef = stab.second;
       size_t intervalIndex = macroIntervalMap.at(macroRef);
       std::unordered_map<size_t, std::vector<size_t> >::iterator it = stabbedIntervals.find(points.get(pointIndex));
