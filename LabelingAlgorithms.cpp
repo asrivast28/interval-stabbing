@@ -36,7 +36,7 @@ getIntervalSymbols(
   const std::pair<unsigned char, bool> upper
 )
 {
-  if (((lower.first == 255) && !lower.second) || ((upper.first == 0) && !lower.second)) {
+  if (((lower.first == 255) && !lower.second) || ((upper.first == 0) && !upper.second)) {
     return "";
   }
   unsigned char x = lower.first + (lower.second ? 0 : 1);
@@ -68,7 +68,7 @@ getIntervalSymbols(
   for (const std::pair<std::pair<unsigned char, bool>, std::pair<unsigned char, bool> >& interval : intervals) {
     const std::pair<unsigned char, bool>& lower = interval.first;
     const std::pair<unsigned char, bool>& upper = interval.second;
-    if (((lower.first == 255) && !lower.second) || ((upper.first == 0) && !lower.second)) {
+    if (((lower.first == 255) && !lower.second) || ((upper.first == 0) && !upper.second)) {
       continue;
     }
     unsigned char x = lower.first + (lower.second ? 0 : 1);
