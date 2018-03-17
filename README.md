@@ -42,6 +42,9 @@ Once the project has been built, the application can be used with any combinatio
 <pre><code>-h [ --help ]                         Print this message.
 -d [ --device ] arg                   Name of the AP device to be used for
                                       stabbing intervals.
+-m [ --macros ] arg (=./comparators)  Directory which contains all the
+                                      comparator macros.
+-f [ --fsm ] arg                      Name of the FSM file to be written.
 -i [ --intervals ] arg                Name of the file from which intervals
                                       are to be read.
 -p [ --points ] arg                   Name of the file from which points are
