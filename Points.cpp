@@ -176,12 +176,12 @@ template class Points<uint32_t>;
 template class Points<int32_t>;
 template class Points<uint64_t>;
 template class Points<int64_t>;
-//template class Points<float>;
-//template class Points<double>;
+template class Points<float>;
+template class Points<double>;
 
 template Points<uint32_t>::Points(const size_t, std::default_random_engine&);
 template Points<int32_t>::Points(const size_t, std::default_random_engine&);
 template Points<uint64_t>::Points(const size_t, std::default_random_engine&);
 template Points<int64_t>::Points(const size_t, std::default_random_engine&);
-//template Points<float>::Points(const size_t, std::default_random_engine&);
-//template Points<double>::Points(const size_t, std::default_random_engine&);
+template Points<float>::Points(const size_t, std::default_random_engine&);
+template Points<double>::Points(const size_t, std::default_random_engine&);

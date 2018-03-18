@@ -108,13 +108,15 @@ main(
 
   try {
     if (options.isReal()) {
-      throw std::runtime_error("Real intervals aren't supported yet.");
-      //if (options.numBytes() == 4) {
-        //stabIntervals<float>(options);
-      //}
-      //else if (options.numBytes() == 8) {
-        //stabIntervals<double>(options);
-      //}
+      if (options.numBytes() == 4) {
+        stabIntervals<float>(options);
+      }
+      else if (options.numBytes() == 8) {
+        stabIntervals<double>(options);
+      }
+      else {
+        throw std::runtime_error("Unsupported number of bytes.");
+      }
     }
     else if (options.isSigned()) {
       if (options.numBytes() == 4) {

@@ -88,6 +88,34 @@ Intervals<LimitType>::Intervals(
   }
 }
 
+#define INITIALIZE_REAL_FILE(RealType) \
+template <> \
+Intervals<RealType>::Intervals( \
+  const std::string& intervalsFile \
+) : m_intervals() \
+{ \
+  std::ifstream intervals(intervalsFile); \
+  std::string line; \
+  while (std::getline(intervals, line)) { \
+    std::istringstream is(line); \
+    RealType x, y; \
+    is >> x >> y; \
+    if (std::signbit(x) && !std::signbit(y)) { \
+      std::cout << "Splitting the interval [" << x << "," << y << "] into the following two intervals: "; \
+      m_intervals.push_back(std::make_pair(x, std::copysign(0.0, x))); \
+      std::cout << "[" << x << ",-0.0] and "; \
+      m_intervals.push_back(std::make_pair(std::copysign(0.0, y), y)); \
+      std::cout << "[+0.0," << y << "]" << std::endl; \
+    } \
+    else { \
+      m_intervals.push_back(std::make_pair(x, y)); \
+    } \
+  } \
+}
+
+INITIALIZE_REAL_FILE(float)
+INITIALIZE_REAL_FILE(double)
+
 /**
  * @brief  Constructor for generating random points.
  *
@@ -107,7 +135,7 @@ Intervals<LimitType>::Intervals(
 }
 
 // Specialization of the random interval generator constructor for integer datatypes.
-#define INITIALIZE_INTEGER(IntegerType) \
+#define INITIALIZE_INTEGER_RANDOM(IntegerType) \
 template <> \
 template <typename RandomNumberGenerator> \
 Intervals<IntegerType>::Intervals( \
@@ -133,13 +161,13 @@ Intervals<IntegerType>::Intervals( \
   std::cout << std::endl; \
 }
 
-INITIALIZE_INTEGER(uint32_t);
-INITIALIZE_INTEGER(int32_t);
-INITIALIZE_INTEGER(uint64_t);
-INITIALIZE_INTEGER(int64_t);
+INITIALIZE_INTEGER_RANDOM(uint32_t);
+INITIALIZE_INTEGER_RANDOM(int32_t);
+INITIALIZE_INTEGER_RANDOM(uint64_t);
+INITIALIZE_INTEGER_RANDOM(int64_t);
 
 // Specialization of the random interval generator constructor for real datatypes.
-#define INITIALIZE_REAL(RealType) \
+#define INITIALIZE_REAL_RANDOM(RealType) \
 template <> \
 template <typename RandomNumberGenerator> \
 Intervals<RealType>::Intervals( \
@@ -154,19 +182,27 @@ Intervals<RealType>::Intervals( \
   for (size_t i = 0; i < numRandom; ++i) { \
     RealType x = distribution(generator); \
     RealType y = distribution(generator); \
-    if (x > y) { \
+    if (std::isgreater(x, y)) { \
       RealType temp = x; \
       x = y; \
       y = temp; \
     } \
-    m_intervals.push_back(std::make_pair(x, y)); \
-    std::cout << "[" << x << "," << y << "]" << std::endl; \
+    if (std::signbit(x) && !std::signbit(y)) { \
+      m_intervals.push_back(std::make_pair(x, std::copysign(0.0, x))); \
+      std::cout << "[" << x << ",-0.0]" << std::endl; \
+      m_intervals.push_back(std::make_pair(std::copysign(0.0, y), y)); \
+      std::cout << "[+0.0," << y << "]" << std::endl; \
+    } \
+    else { \
+      m_intervals.push_back(std::make_pair(x, y)); \
+      std::cout << "[" << x << "," << y << "]" << std::endl; \
+    } \
   } \
   std::cout << std::endl; \
 }
 
-//INITIALIZE_REAL(float);
-//INITIALIZE_REAL(double);
+INITIALIZE_REAL_RANDOM(float);
+INITIALIZE_REAL_RANDOM(double);
 
 
 /**
@@ -344,12 +380,12 @@ template class Intervals<uint32_t>;
 template class Intervals<int32_t>;
 template class Intervals<uint64_t>;
 template class Intervals<int64_t>;
-//template class Intervals<float>;
-//template class Intervals<double>;
+template class Intervals<float>;
+template class Intervals<double>;
 
 template Intervals<uint32_t>::Intervals(const size_t, std::default_random_engine&);
 template Intervals<int32_t>::Intervals(const size_t, std::default_random_engine&);
 template Intervals<uint64_t>::Intervals(const size_t, std::default_random_engine&);
 template Intervals<int64_t>::Intervals(const size_t, std::default_random_engine&);
-//template Intervals<float>::Intervals(const size_t, std::default_random_engine&);
-//template Intervals<double>::Intervals(const size_t, std::default_random_engine&);
+template Intervals<float>::Intervals(const size_t, std::default_random_engine&);
+template Intervals<double>::Intervals(const size_t, std::default_random_engine&);
